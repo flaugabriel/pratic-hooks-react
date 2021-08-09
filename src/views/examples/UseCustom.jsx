@@ -1,10 +1,18 @@
 import React from "react";
 import PageTitle from "../../components/layout/PageTitle";
 import { useCounter } from "../../hooks/useCouter";
+import { useFetch } from "../../hooks/useFetch";
+import SectionTitle from "../../components/layout/SectionTitle";
 
 const UseRef = (props) => {
 
 	const [count, inc, dec] = useCounter()
+	const url = 'http://files.cod3r.com.br/curso-react/estados.json'
+	const response = useFetch(url)
+
+	function showStates(states){
+		return states.map(state =>  <li key={state.nome} >{state.nome} - {state.sigla}</li>)
+	}
 
   return (
     <div className="UseCustom">
@@ -12,6 +20,7 @@ const UseRef = (props) => {
         title="Seu Hook"
         subtitle="Vamos aprender como criar o nosso próprio Hook!"
       />
+			<SectionTitle title="Exercício #01"/>
 
 			<div className="center">
 				<span className="text">
@@ -28,6 +37,12 @@ const UseRef = (props) => {
 					</button>
 				</div>
 			</div>
+				<SectionTitle title="Exercício #01"/>
+				<div className="center">
+					<ul>
+						{!response.loading ? showStates(response.data) : false}
+					</ul>
+				</div>
     </div>
   );
 };
